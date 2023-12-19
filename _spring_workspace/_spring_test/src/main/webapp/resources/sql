@@ -1,0 +1,33 @@
+
+-------------2023-12-14
+
+db설정
+db명 : springtest
+user : springUser
+pass : mysql
+
+user 생성구문
+-- database 생성
+create database springtest;
+계정은 root / ezen
+
+create user 'springUser'@'localhost' identified by 'mysql';
+
+--권한생성
+grant all privileges on springtest.* to 'springUser'@'localhost' identified by 'mysql';
+
+--권한 설정 내용 메모리에 반영
+flush privileges;
+
+create table board(
+bno int auto_increment,
+title varchar(200),
+writer varchar(200),
+content text,
+isDel varchar(10) default 'N',
+reg_date datetime default now(),
+read_count int,
+primary key(bno));
+
+
+-------------------------------------------------
