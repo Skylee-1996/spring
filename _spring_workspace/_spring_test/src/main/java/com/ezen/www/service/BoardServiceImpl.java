@@ -50,9 +50,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getTotalCount() {
-		// TODO Auto-generated method stub
-		return bdao.getTotalCount();
+	public int getTotalCount(PagingVO pgvo) {
+		return bdao.getTotalCount(pgvo);
 	}
 	
 }

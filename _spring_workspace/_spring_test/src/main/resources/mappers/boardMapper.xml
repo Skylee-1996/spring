@@ -8,7 +8,9 @@
   			values(#{title},#{writer},#{content})
   		</insert>
   		<select id="selectList" resultType="com.ezen.www.domain.BoardVO">
-  			select * from board where isDel='N' order by bno desc limit #{pageStart}, #{qty}
+  			select * from board where isDel='N'
+  			<include refid="search"></include>
+  			 order by bno desc limit #{pageStart}, #{qty}
   		</select>
   		<select id="select" resultType="com.ezen.www.domain.BoardVO">
   			select * from board where isDel="N" and bno = #{bno}
@@ -26,6 +28,30 @@
   		
   		<select id="getTotalCount" resultType="int">
   			select count(bno) from board where isDel = 'N'
+  			<include refid="search"></include>
   		</select>
+  		
+  		
+  		<sql id="search">
+  			<if test="type != null">
+  				<trim prefix="and (" suffix=")" suffixOverrides="or">
+  					<foreach collection="typeToArray" item="type">
+  						<trim suffix="or">
+  							<choose>
+  								<when test="type=='t'.toString()">
+  									title like concat('%' ,#{keyword},'%')
+  								</when>
+  								<when test="type=='w'.toString()">
+  									writer like concat('%' ,#{keyword},'%')
+  								</when>
+  								<when test="type=='c'.toString()">
+  									context like concat('%' ,#{keyword},'%')
+  								</when>
+  							</choose>
+  						</trim>
+  					</foreach>
+  				</trim>
+  			</if>
+  		</sql>
   		
   </mapper>

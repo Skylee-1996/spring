@@ -45,7 +45,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public String list(Model m, PagingVO pgvo) {  //같은 곳에서 같은곳으로 이동할때는 void로 주고 return이 없어도 같음
 		
-		log.info(">>>>>pgvo>>> {}", pgvo);
+		log.info(">>>>>pgvo>>> {}", pgvo);//pageNo, qty, type, keyword
 		
 		
 		//리턴타입은 목적지 경로에 대한 타입 (destPage가 리턴이라고 생각)
@@ -54,7 +54,7 @@ public class BoardController {
 		m.addAttribute("list", bsv.getList(pgvo));
 		
 		//ph 객체 다시 생성
-		int totalCount = bsv.getTotalCount();
+		int totalCount = bsv.getTotalCount(pgvo);
 		PagingHandler ph = new PagingHandler(pgvo, totalCount);
 		m.addAttribute("ph", ph);
 		

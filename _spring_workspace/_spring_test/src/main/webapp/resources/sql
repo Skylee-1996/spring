@@ -31,3 +31,15 @@ primary key(bno));
 
 
 -------------------------------------------------
+
+
+
+2023 12 20
+
+create table comment(
+cno int auto_increment,
+bno int not null,
+writer varchar(100) not null,
+content varchar(500),
+reg_date datetime default now(),
+primary key(cno));

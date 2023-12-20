@@ -17,7 +17,8 @@ public interface BoardService {
 
 	int remove(int bno);
 
-	int getTotalCount();
+	int getTotalCount(PagingVO pgvo);
+
 	
 
 }
