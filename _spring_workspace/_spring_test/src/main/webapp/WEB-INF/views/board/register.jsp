@@ -30,9 +30,11 @@
 <div class="mb-3" id="fileZone">
 	
 </div>
+
 <button type="submit" class="btn btn-primary" id="regBtn">Register</button>
 </form>
 </div>
+
 <script src="/resources/js/boardRegister.js"></script>
 
 

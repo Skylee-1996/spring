@@ -4,15 +4,21 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ezen.www.domain.BoardDTO;
 import com.ezen.www.domain.BoardVO;
 import com.ezen.www.domain.FileVO;
 import com.ezen.www.domain.PagingVO;
@@ -52,10 +58,17 @@ public class BoardController {
 		if(files[0].getSize() > 0) {
 			flist = fhd.uploadFiles(files);
 			log.info(">>> flist>>> {}", flist);
+		}else {
+			log.info("file null");
+			
 		}
+		BoardDTO bdto = new BoardDTO(bvo,flist);
 		
 		
-		//int isOk = bsv.register(bvo);
+		int isOk = bsv.register(bdto);
+		
+		log.info(">>> board register >> " + (isOk > 0 ? "OK" : "Fail"));
+		
 		
 		
 		//목적지 경로
@@ -86,7 +99,7 @@ public class BoardController {
 	@GetMapping({"/detail","/modify"})
 	public void detail(Model m, @RequestParam("bno") int bno) {
 		log.info(">>>>> bno" + bno);
-		m.addAttribute("bvo", bsv.getDetail(bno));
+		m.addAttribute("boardDTO", bsv.getDetail(bno));
 	}
 	
 	@PostMapping("/modify")
@@ -111,6 +124,17 @@ public class BoardController {
 		//한번만 일회성으로 데이터 보낼 대 사용
 		re.addFlashAttribute("isDel", isOk);
 		return "redirect:/board/list";
+	}
+	
+	@DeleteMapping(value ="/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> delete(@PathVariable("uuid")String uuid){
+		log.info(">>>uuid >> {}" + uuid);
+		
+		int isOk = bsv.delete(uuid);
+		
+		return isOk>0 ? new ResponseEntity<String>("1", HttpStatus.OK) : 
+			new ResponseEntity<String>("0",HttpStatus.INTERNAL_SERVER_ERROR);
+		
 	}
 	
 	
