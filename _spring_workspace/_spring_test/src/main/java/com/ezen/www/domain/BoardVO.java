@@ -20,7 +20,8 @@ public class BoardVO {
 	private String content;
 	private String reg_date;
 	private int read_count;
-	
+	private int comment_count;
+	private int file_count;
 	
 
 

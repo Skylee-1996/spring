@@ -1,3 +1,4 @@
+console.log('hi');
 document.getElementById('trigger').addEventListener('click',()=>{
     document.getElementById('file').click();
 })

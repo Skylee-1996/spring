@@ -24,6 +24,10 @@ public interface BoardDAO {
 
 	int selectBno();
 
+	int updateCcount();
+
+	int updateFcount();
+
 
 
 }

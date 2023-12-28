@@ -48,7 +48,10 @@
   	<c:forEach items="${list }" var="bvo">
     <tr>
       <th scope="row">${bvo.bno }</th>
-      <td><a href="/board/detail?bno=${bvo.bno }">${bvo.title }</a></td>
+      <td><a href="/board/detail?bno=${bvo.bno }">${bvo.title }</a>
+      <h6 class="badge bg-secondary">댓글: ${bvo.comment_count }</h6> 
+       <h6 class="badge bg-secondary">파일: ${bvo.file_count }</h6> 
+      </td>
       <td>${bvo.writer }</td>
       <td>${bvo.reg_date }</td>
       <td>${bvo.read_count }</td>

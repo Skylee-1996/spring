@@ -7,7 +7,8 @@
     <div class="container-md">
      <h1>Board modify Page</h1>
      <c:set value="${boardDTO.bvo }" var="bvo"/>
-  <form action="/board/modify" method="post">
+     
+  <form action="/board/modify" method="post" enctype="multipart/form-data">
    <div class="mb-3">
   <label for="bno" class="form-label">Bno</label>
   <input type="text" class="form-control" name="bno" id="bno" value="${bvo.bno }" readonly="readonly">
@@ -28,6 +29,7 @@
   <label for="content" class="form-label">Content</label>
   <textarea class="form-control" id="content" name="content" rows="3" >${bvo.content }
   </textarea>
+  
   
   <!--파일 표시라인  -->
   <hr>
@@ -71,7 +73,7 @@
   
   <!-- file 입력 라인 추가 -->
 <div class="mb-3">
-  <label for="file" class="form-label">fileUpload</label>
+  <label for="file" class="form-label">files...</label>
   <input type="file" class="form-control" name="files" id="file" multiple="multiple" style="display : none">
     <button type="button" class="btn btn-primary" id="trigger">FileUpload</button>
 </div>
@@ -81,7 +83,7 @@
 </div>
   
  <a><button type="button" class="btn btn-primary">List</button></a>
-<button type="submit" class="btn btn-success">Modify</button>
+<button type="submit" class="btn btn-success" id="regBtn">Modify</button>
 </div>
 </form>
  </div>

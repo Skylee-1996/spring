@@ -92,6 +92,7 @@ public class BoardController {
 		int totalCount = bsv.getTotalCount(pgvo);
 		PagingHandler ph = new PagingHandler(pgvo, totalCount);
 		m.addAttribute("ph", ph);
+	
 		
 		return "/board/list";
 	}
@@ -103,11 +104,18 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO bvo) {
+	public String modify(BoardVO bvo, @RequestParam(name="files", required = false)MultipartFile[] files) {
 		log.info(">>>>>modift check {}",bvo);
+		
+		List<FileVO> flist = null;
+		if(files[0].getSize()>0) {
+			//파일이 존재한다면
+			flist = fhd.uploadFiles(files);
+		}
+		BoardDTO boardDTO = new BoardDTO(bvo,flist);
+		
 		//update
-		int isOk=bsv.update(bvo);
-		log.info(">>>>update check>>> {}", isOk);
+		bsv.update(boardDTO);
 		
 		//m.addAtrribute("bno",bvo.getBno());
 		return "redirect:/board/detail?bno="+bvo.getBno(); //bno가 필요
@@ -126,8 +134,8 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@DeleteMapping(value ="/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> delete(@PathVariable("uuid")String uuid){
+	@DeleteMapping(value ="/file/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> removeFile(@PathVariable("uuid")String uuid){
 		log.info(">>>uuid >> {}" + uuid);
 		
 		int isOk = bsv.delete(uuid);

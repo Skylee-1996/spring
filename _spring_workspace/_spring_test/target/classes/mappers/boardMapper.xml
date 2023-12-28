@@ -34,6 +34,26 @@
   			select max(bno) from board
   			<!-- select bno from board order by bno desc limit 0 -->
   		</select>
+  		<update id="updateCcount">
+  		UPDATE board AS b
+			LEFT JOIN (
+			  SELECT bno, COUNT(*) AS comment_count
+			  FROM comment
+			  GROUP BY bno
+			) AS c ON b.bno = c.bno
+			SET b.comment_count = c.comment_count;
+  		</update>
+  		
+  		<update id="updateFcount">
+  		UPDATE board AS b
+			LEFT JOIN (
+			  SELECT bno, COUNT(*) AS file_count
+			  FROM file
+			  GROUP BY bno
+			) AS f ON b.bno = f.bno
+			SET b.file_count = f.file_count;
+  		</update>
+ 
   		
   		
   		<sql id="search">

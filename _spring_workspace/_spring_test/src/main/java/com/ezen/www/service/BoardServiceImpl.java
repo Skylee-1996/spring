@@ -56,6 +56,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
 		
+		int isOk = bdao.updateCcount();
+		log.info(">>>>comment count>>>> {}", isOk);
+		int isOkf = bdao.updateFcount();
+		log.info(">>>>comment count>>>> {}", isOkf);
+		
 		return bdao.selectList(pgvo);
 	}
 
@@ -73,8 +78,20 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public int update(BoardVO bvo) {
-		 return bdao.update(bvo);
+	public void update(BoardDTO bdto) {
+		int isOk = bdao.update(bdto.getBvo()); // 보드내용수정
+		if(bdto.getFlist() == null) {
+			isOk *= 1;
+		}else {
+			if(isOk > 0 && bdto.getFlist().size() > 0) {
+				int bno = bdto.getBvo().getBno();
+				for(FileVO fvo : bdto.getFlist()) {
+					fvo.setBno(bno);
+					isOk *= fdao.insertFile(fvo);
+					
+				}
+			}
+		}
 	}
 
 	@Override

@@ -2,7 +2,7 @@ console.log("hi");
 
 async function removeFileFromServer(uuid){
     try {
-            const url = "/board/" + uuid;
+            const url = "/board/file/" + uuid;
             const config = {
                 method: "delete"
             }
@@ -19,13 +19,14 @@ document.addEventListener('click',(e)=>{
     console.log(e.target);
     if(e.target.classList.contains('file-x')){
         let uuid = e.target.dataset.uuid;
-        let li = e.target.closest('li');
-        li.remove();
         console.log(uuid);
         removeFileFromServer(uuid).then(result=>{
             if(result==="1"){
                 alert("파일 삭제 성공");
-                
+                e.target.closest('li').remove(); //li삭제
+                location.reload(); //새로고침
+            }else{
+                alert("파일삭제 실패..");
             }
         })
 

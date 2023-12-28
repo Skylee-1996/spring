@@ -14,7 +14,7 @@
 </div>
 <div class="mb-3">
   <label for="writer" class="form-label">Writer</label>
-  <input type="text" class="form-control" name="writer" id="writer" placeholder="Writer..">
+  <input type="text" class="form-control" name="writer" id="writer" value="${ses.id }">
 </div>
 <div class="mb-3">
   <label for="content" class="form-label">Content</label>
